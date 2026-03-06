@@ -561,9 +561,11 @@ setInterval(refresh, 5000);
 </html>
 """
 
+# Запускаем потоки на уровне модуля — работает и с gunicorn и напрямую
+threading.Thread(target=tg_poll, daemon=True).start()
+threading.Thread(target=monitor, daemon=True).start()
+
 if __name__ == "__main__":
-    threading.Thread(target=tg_poll, daemon=True).start()
-    threading.Thread(target=monitor, daemon=True).start()
     port = int(os.environ.get("PORT", 5000))
     if not os.environ.get("RAILWAY_ENVIRONMENT") and not os.environ.get("RENDER"):
         import webbrowser
