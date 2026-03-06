@@ -52,6 +52,11 @@ def broadcast(text):
 
 def tg_poll():
     global tg_ok
+    # Удаляем вебхук если установлен — иначе polling не работает
+    try:
+        requests.post(TG_URL + "/deleteWebhook", timeout=10)
+    except:
+        pass
     offset = None
     while True:
         try:
